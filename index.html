@@ -12,24 +12,14 @@
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
-      /* const getFormattedText = string => `The count is: ${string}`;
-      let count = 0;
-      const interval = setInterval(() => {
-        const para = <p>{getFormattedText(count)}</p>;
-        ReactDOM.render(para, document.querySelector("#root"));
-        if (count === 1000) {
-          clearInterval(interval);
-        } else {
-          count++;
-        }
-      }, 30); */
-      const isError = false;
-      const errorContainer = (
-        <div className={isError ? "error" : "standard"}>
-          {isError ? <p>Panic! Something is wrong</p> : <p>stop panicking!</p>}
+      const Para = () => <p>Sally</p>;
+      const container = (
+        <div>
+          <Para />
+          {/* {Para()} */}
         </div>
       );
-      ReactDOM.render(errorContainer, document.querySelector("#root"));
+      ReactDOM.render(container, document.querySelector("#root"));
     </script>
   </body>
 </html>
