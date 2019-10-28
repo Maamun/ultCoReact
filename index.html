@@ -11,8 +11,31 @@
     <script src="https://unpkg.com/react@16.11.0/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script type="text/javascript">
-      const button = React.createElement("button", { type: "button" }, "Save");
-      ReactDOM.render(button, document.querySelector("#root"));
+      const mainHeading = React.createElement("h1", null, "My Blog");
+
+      const articleHeading = React.createElement(
+        "h2",
+        null,
+        "My first blogpost"
+      );
+      const para = React.createElement(
+        "p",
+        { className: "para" },
+        "Rendering nested elements with React.createElement"
+      );
+      const article = React.createElement(
+        "article",
+        null,
+        articleHeading,
+        para
+      );
+      const main = React.createElement(
+        "main",
+        { id: "main" },
+        mainHeading,
+        article
+      );
+      ReactDOM.render(main, document.querySelector("#root"));
     </script>
   </body>
 </html>
