@@ -15,9 +15,16 @@
       const input = (
         <React.Fragment>
           <label htmlFor="input">This is a test input</label>
-          <input type="input" maxLength="10" readOnly className="input-style" />
+          <input
+            type="input"
+            maxLength="10"
+            readOnly
+            className="input-style"
+            aria-label="this is a test input"
+          />
         </React.Fragment>
       );
+      /* ARIA labels without camel cases */
       ReactDOM.render(input, document.querySelector("#root"));
     </script>
   </body>
