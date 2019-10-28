@@ -13,9 +13,18 @@
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
       const main = (
-        <main id="main">
-          <h1>Hello</h1>
-        </main>
+        <React.Fragment>
+          <main id="main">
+            <h1>My Blog</h1>
+            <article>
+              <h2>My first blogpost</h2>
+              <p className="para">Creating view wih JSX</p>
+            </article>
+          </main>
+          <footer>
+            <span>Hi</span>
+          </footer>
+        </React.Fragment>
       );
       ReactDOM.render(main, document.querySelector("#root"));
     </script>
