@@ -7,20 +7,12 @@
     <title>Ultimate Course React</title>
   </head>
   <body>
-    <main>
-      <h1>My Blog</h1>
-      <article>
-        <h2>My frist blog post</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-          animi!
-        </p>
-      </article>
-    </main>
+    <div id="root"></div>
     <script src="https://unpkg.com/react@16.11.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react@16.11.0/umd/react.development.js"></script>
-    <script>
-      type = "text/javascript";
+    <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
+    <script type="text/javascript">
+      const button = React.createElement("button", { type: "button" }, "Save");
+      ReactDOM.render(button, document.querySelector("#root"));
     </script>
   </body>
 </html>
