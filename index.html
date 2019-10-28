@@ -12,20 +12,16 @@
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
-      const input = (
-        <React.Fragment>
-          <label htmlFor="input">This is a test input</label>
-          <input
-            type="input"
-            maxLength="10"
-            readOnly
-            className="input-style"
-            aria-label="this is a test input"
-          />
-        </React.Fragment>
-      );
-      /* ARIA labels without camel cases */
-      ReactDOM.render(input, document.querySelector("#root"));
+      let count = 0;
+      const interval = setInterval(() => {
+        const para = <p>{count}</p>;
+        ReactDOM.render(para, document.querySelector("#root"));
+        if (count === 1000) {
+          clearInterval(interval);
+        } else {
+          count++;
+        }
+      }, 30);
     </script>
   </body>
 </html>
