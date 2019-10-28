@@ -12,11 +12,15 @@
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
-      const Para = () => <p>Sally</p>;
+      const error = {
+        hasError: true,
+        message: "O dear, run for hills!!"
+      };
+      const ErrorBlock = ({ error }) =>
+        error.hasError ? <p>{error.message}</p> : <p>Everything is OK!</p>;
       const container = (
         <div>
-          <Para />
-          {/* {Para()} */}
+          <ErrorBlock error={error} />
         </div>
       );
       ReactDOM.render(container, document.querySelector("#root"));
