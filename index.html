@@ -12,21 +12,13 @@
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
-      const main = (
+      const input = (
         <React.Fragment>
-          <main id="main">
-            <h1>My Blog</h1>
-            <article>
-              <h2>My first blogpost</h2>
-              <p className="para">Creating view wih JSX</p>
-            </article>
-          </main>
-          <footer>
-            <span>Hi</span>
-          </footer>
+          <label htmlFor="input">This is a test input</label>
+          <input type="input" maxLength="10" readOnly className="input-style" />
         </React.Fragment>
       );
-      ReactDOM.render(main, document.querySelector("#root"));
+      ReactDOM.render(input, document.querySelector("#root"));
     </script>
   </body>
 </html>
