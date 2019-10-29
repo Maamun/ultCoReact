@@ -12,18 +12,29 @@
     <script src="https://unpkg.com/react-dom@16.11.0/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
     <script type="text/babel">
-      const error = {
-        hasError: true,
-        message: "O dear, run for hills!!"
-      };
-      const ErrorBlock = ({ error }) =>
-        error.hasError ? <p>{error.message}</p> : <p>Everything is OK!</p>;
-      const container = (
-        <div>
-          <ErrorBlock error={error} />
-        </div>
+      const Para = ({ text }) => <p>{text}</p>;
+      const Section = ({ headingText, children }) => (
+        <section>
+          <h1>{headingText}</h1>
+          {children}
+        </section>
       );
-      ReactDOM.render(container, document.querySelector("#root"));
+      const SectionBlock = () => (
+        <Section headingText="HI Yesso">
+          <Para text="Hi Nosnos" />
+        </Section>
+      );
+      {
+        /* passing text props into section component is called prop drilling where a prop passes through a component thats not needing it, only to drive another component further in the hierarchy. 
+        ex :
+        const Section = ({headingText, text}) => (
+            <h1>{headingText}</h1>
+            <Para text={text} />
+        )
+        */
+        /* React takes any content that we place between the opening and the closing tag of our component and it gives it to us as the children prop that is always written on component by react itself, this is really a powerful pattern, in this way i can create a powerful wrapping components, and it also gives me a way to compose my components so that i limit the amount of props that i have to send through component to child component   */
+      }
+      ReactDOM.render(<SectionBlock />, document.querySelector("#root"));
     </script>
   </body>
 </html>
