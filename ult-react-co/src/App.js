@@ -1,5 +1,10 @@
 import React from 'react';
 import Counter from './Counter';
-const App = () => <Counter />
+import Random from './Random'
+const App = () => (<>
+    <Counter />
+    <Random />
+    
+    </>)
 
 export default App
