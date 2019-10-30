@@ -1,18 +1,27 @@
 import React, {useState} from 'react'
-const Counter = () => {
-    const [counter, setCounter] = useState(0)
-    const onClickHandler = () => {
-        setCounter(counter + 1)
-    }
-    return (
+
+const CounterView = ({counterValue, onIncrement}) => (
         <>
-        <p>{counter}</p>
-        <button type='button' onClick={onClickHandler}>ADD</button>
+        <p>{counterValue}</p>
+        <button type='button' onClick={onIncrement}>ADD</button>
         
         </>)
-}
- /* Hooks must always be called at the top level of our ReactComponent, this means that they should never be called inside loops, conditions or nested functions. The reason for this is that in order for react to be able to manage our hooks and call them at the appropriate times, they should be defined during EACH RENDER CYCLE*/
 
- /* React knows best how and when to update any part of the DOM it controls. by deferring state updates to react, it can keep track of all our changes and find the most efficient moment to apply thoses changes. in fact, with useState we tell react that we want some component state. we tell react what the state shoud be, what is should look like and when we would like too update it. react takes care of the rest, in fact the useState hook will run asynchronously at the most appropriate time to ensure that the view in the browser remains dynamic, and that it's not get blocked waiting for these changes to flash. This means more responsive interfaces for our users and most importantly when we call the setter function, react will recall  our component fucntion once the new value has been applied. That means that our component will rerender with the new value applied to its JSX declared view. STATE IS THE BEATING HEART OF OUR APPLICATION, when we change state, the component containing the state will rerender and will return a new version of the view updated to reflect the new state value, this means that react applications are in fact STATE MACHINES*/
+const Counter = () => {
+    const [counter, setCounter] = useState(0)
+    const onIncrementHandler = () => {
+        setCounter(counter + 1)
+    }
+    return <CounterView counterValue={counter} onIncrement={onIncrementHandler}/>
+}
+ /* 1 - with onIncrement fucntion we are exposing function of the component(Counter), whhile the component itself takes care of how that function gets called. in this case the onClick event of the button is what is creating the onIncrement event.
+   2 - Props are a form of state. we have internal component state and we have state that exists in prop. by tying the internal component state of the one component to the prop of a child component, we are allowing these components to communicate with each other. however my data is only passed into this component(CounterView), this component DOES NOT MODIFY THE DATA DIRECTLY! so the CounterView component did not go and modify counterValue when the button was clicked. what rather did is to trigger an event to tell the Counter component that STATE SOULD BE UPDATED. this is what called ONE WAY DATA FLOW or UNIDIRECTIONAL DATA FLOW. our data only flows down, child components that accept state value from parent components, NEVER MODIFY THOSE VALUES DIRECTLY!
+   3 - if a child component needs to tell a parent component to make change to a value, it always does that through EVENTS, so you can think of data flowing down into your component tree and events bubbling UPWARDS.
+   4 - When state changes, the component that owns that state will be re-rendered as well as its entire child component tree.
+   5 - The reason that components never modify values other than what they own, is the same reason that we saw when we explored PURE FUNCTIONS. component function should be pure based on their props, this means that based on the same props, it will always return the same view. if components start modifying state that was not part of their own scopes, this would no longer be true! and we would have unexpected situations in our applications.
+   6 - it also makes it easier to trace errors, when we know that components own heir own data. so if we find an error in a specific set of data, we can trace it upwards in the component tree o go find the component that owns it.
+ */
+
+
 export default  Counter 
    
