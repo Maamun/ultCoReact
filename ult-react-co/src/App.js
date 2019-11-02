@@ -1,9 +1,8 @@
 import React from 'react';
-import Counter from './Counter';
-import Random from './Random'
+import UltimateMachine from './UltimateMachine';
 const App = () => (<>
-    <Counter />
-    <Random />
+    <UltimateMachine />
+    
     
     </>)
 
