@@ -1,7 +1,7 @@
 import React from 'react';
-import UltimateMachine from './UltimateMachine';
+import UltimateHolidayList from './UltimateHolidayList';
 const App = () => (<>
-    <UltimateMachine />
+    <UltimateHolidayList />
     
     
     </>)
