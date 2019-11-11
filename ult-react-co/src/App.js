@@ -1,9 +1,9 @@
-import React from 'react';
-import UltimateHolidayList from './UltimateHolidayList';
-const App = () => (<>
-    <UltimateHolidayList />
-    
-    
-    </>)
+import React from "react";
+import UltimateList from "./UltimateList";
+const App = () => (
+  <>
+    <UltimateList />
+  </>
+);
 
-export default App
+export default App;
