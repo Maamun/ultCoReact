@@ -1,8 +1,8 @@
 import React from "react";
-import UltimateList from "./UltimateList";
+import Counter from "./Counter";
 const App = () => (
   <>
-    <UltimateList />
+    <Counter />
   </>
 );
 
