@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-const subscibe = () => {
-  console.log("subscribed");
+const subscibe = count => {
+  console.log(`Subscribed for ${count}`);
 };
-const unsubscibe = () => {
-  console.log("Unsubscribe");
+const unsubscibe = count => {
+  console.log(`Unsubscribed for ${count}`);
 };
 const Counter = () => {
   const [counter, setCounter] = useState(0);
@@ -13,11 +13,11 @@ const Counter = () => {
   }, [counter]);
 
   useEffect(() => {
-    subscibe();
+    subscibe(counter);
     return () => {
-      unsubscibe();
+      unsubscibe(counter);
     };
-  }, []);
+  }, [counter]);
 
   const onCountClickHandler = () => {
     setCounter(c => c + 1);
@@ -32,11 +32,16 @@ const Counter = () => {
     </Fragment>
   );
 };
-/* - Why didn't we have to put the subscribe function inside the dependency array? the reason for that it was declared outisde the render scope of the Counter component, it is not part of the component function and therefor we can treat it as a true constant and does not have to be part of the dependency array, this is something we have to keep in mind, if we have side effects that doesn't use anything inside of our components, it is often a good idea to move it outside of the component. Usually this leads to code that is easier to reason about and also when we create a useEffect functions we do not have to add it to the dependency arrays.
-- so if we know a function as constant and it does not use anything defined inside of our component, it propably doesn't belong inside our component in the first place. 
+/* - It immediately shows in the console Subscribed for 0, and the reason for that is when it mounts: the counter value is already changing from undefined to 0. That's important to know that the effect hook will also run the mount process when we are looking at a specefic value.
+- useEffect(() => {
+    subscibe(counter);
+    return () => {
+      unsubscibe(counter);
+    };
+  }, [counter]); 
+  => when the counter value changed, this useEffect was ran, this is looking at the counter for changes and when the counter changes, it will subscribe for the new value of counter but it will also unsubscribe for teh previous version of counter. So the clean up function is NOT ONLY FOR THE COMPONENT. the clean up function is PER EFFECT !! and it's executed everytime the effect changes. So whenever something in the dependency array changes, THE CLEAN UP FUNCTION WILL RUN FOR THE PREVIOUS VERSIONS OF THOSE VALUES.
+  SUMMARY: If we want side effect code to only run once, we have to put it in a useEffect hook with an empty dependency array, so also its clean up function will be executed once when the component is unmounted.
 
-- useEffect comes with a clean up function that we can use to clean up effects.
- - When it is a useEffect with an empty dependency array, the effect code will be run when the component just mounted, it will never run again because there is nothing in the dependency array that can change, so once the component is unmounted, the clean up function will be called for the first time. 
-  - The clean up function will be triggered only once when the component is unmounted.*/
+  - However if the dependency array contains anything, the effect code will run whenever that changes, but the clean up function will also run with every change. it does not run for the first time the component gets mounted because there wasn't a previous run, this mechanism gives us a powerful ability to run our effect code based on the values of the state in our component and also enables us to clean up everytime something changes and we need to re-render the effect code again.*/
 
 export default Counter;
