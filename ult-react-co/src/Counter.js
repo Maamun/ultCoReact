@@ -1,40 +1,42 @@
 import React, { Fragment, useState, useEffect } from "react";
-
+const subscibe = () => {
+  console.log("subscribed");
+};
+const unsubscibe = () => {
+  console.log("Unsubscribe");
+};
 const Counter = () => {
   const [counter, setCounter] = useState(0);
+
   useEffect(() => {
     document.title = `Counter set to ${counter}`;
-    console.log("Title was set");
   }, [counter]);
+
   useEffect(() => {
-    const savedCounterValue = localStorage.getItem("ultimateCounter");
-    if (savedCounterValue != null) {
-      setCounter(parseInt(savedCounterValue), 10);
-    }
+    subscibe();
+    return () => {
+      unsubscibe();
+    };
   }, []);
+
   const onCountClickHandler = () => {
     setCounter(c => c + 1);
   };
-  const onSaveClickHandler = () => {
-    localStorage.setItem("ultimateCounter", counter);
-  };
-  console.log("Main render return");
 
   return (
     <Fragment>
-      <h1>Ultimate Counter</h1>
       <p>{counter}</p>
       <button type="button" onClick={onCountClickHandler}>
         Increment
       </button>
-      <button type="button" onClick={onSaveClickHandler}>
-        Save counter value
-      </button>
     </Fragment>
   );
 };
-/* - If we provide an empty dependency array to useEffect hook, in effect we instruct react to only execute this hook once when the component is first mounted.
-- Anything that we declare inside the useEffect function does not have to be part of the dependency array, only variables declared outside of the useEffect hook but still inside of our component function needs to be part of the dependecy array.
-- The rendering happened before the useeffect ran, in real world applications, we can write code to defer the rendeing of the view until these effects have ran, however we need to pick which view that is and perhaps to display a message to say that something is loading. react will run the useEffect asynchronously after the view has been rendered.*/
+/* - Why didn't we have to put the subscribe function inside the dependency array? the reason for that it was declared outisde the render scope of the Counter component, it is not part of the component function and therefor we can treat it as a true constant and does not have to be part of the dependency array, this is something we have to keep in mind, if we have side effects that doesn't use anything inside of our components, it is often a good idea to move it outside of the component. Usually this leads to code that is easier to reason about and also when we create a useEffect functions we do not have to add it to the dependency arrays.
+- so if we know a function as constant and it does not use anything defined inside of our component, it propably doesn't belong inside our component in the first place. 
+
+- useEffect comes with a clean up function that we can use to clean up effects.
+ - When it is a useEffect with an empty dependency array, the effect code will be run when the component just mounted, it will never run again because there is nothing in the dependency array that can change, so once the component is unmounted, the clean up function will be called for the first time. 
+  - The clean up function will be triggered only once when the component is unmounted.*/
 
 export default Counter;
