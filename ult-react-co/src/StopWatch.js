@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./stopWatch.css";
 const StopWatch = () => {
   const [time, setTime] = useState(0);
+  const currentTime = useRef(0);
 
   useEffect(() => {
-    console.log(time);
+    // console.log(`time: ${time}`); // 0
+    console.log(`current Time: ${currentTime.current}`); //0
+
     const interval = setInterval(() => {
-      setTime(time + 1);
-      /* works with setTime(t => t + 1) */
+      currentTime.current++;
+      console.log(currentTime.current);
+      setTime(currentTime.current);
     }, 1000);
 
     return () => {
       clearInterval(interval);
     };
   }, []);
-  console.log(`render ${time}`);
+  // console.log(`render ${time}`);
   return (
     <div className="container">
       <h1>Ultimate StopWatch</h1>
@@ -26,10 +29,11 @@ const StopWatch = () => {
 };
 export default StopWatch;
 
-/* a closure is a collection of all the variables in scope at the time of creation of a function, as components are simply functions they do create closures, and the functions defined therein have access to the variables inside our componenet.However with each render, the new state and props are injected into the component function and they are unique for each render call, the useEffect callback fucntion is also a function and it closes over the values of variables. We have set up our useEffect hook to only trigger when the component is first mounted. at that time of the time state variable was 0. so because this callback fucntion never changes, it will always calculate time variable as 0 and it will always add 1 to 0 and theyfore we see our stopwatch infinitely stuck at 1.
-The way to remember this is that whenever we use the value of a variable declared outside the scope of a function, the value of that varaible WILL BE SNAPSHOTED and it will be FOREVER THE SAME as long as that function exist.
-- When we use useState in react, react itself injects that new state into each render of our component functions, and theyfore they do not suffer from the same fate. but in useeEffect hook we nedd to handle ourself.
-
-=> Previously we said that everything that is within the RENDER SCOPE OF OUR COMPONENT FUNCTION MUST BE INSIDE THE DEPENDENCY ARRAY.
-because we are using time and it's declared within the render scope of the component function, we have to enter it into the dependency array as well.
-- */
+/* - React offers another hook called useRef, which gives us access to mutable value that is managed by react and shared by all render calls.
+- Refs play the same role as instance fields as in JavaScript classes.
+- so we might ask why do we have to do the work to store the latest state of our state values?, why it's not done automatically by react? The reason is that we often don't need them and it would mean a lot of wasted computation o react rather leaves it up to us to decide when we need to save a value and when not.
+- if we go about our code using best patterns for useEffect, we will not often have to do this.but it;s good to know what to do when this occurs.
+- so we create a ref container with useRef hook, and we need to know about Ref container that it is an object that contains a current property and the current value of the ref container is contained in the current property.
+- it is interesting that We no longer have an error in our dependency array, the reason for this is that beacause we used a Ref container, and we did not use the time value directly, react knows that this Ref container stays the same amongs all renders, therefore we do not have to reference it anymore.
+- we might also ask why do we need both state and teh Ref container?, well, we have to remember that updating state IS THE DRIVING FORCE OF OUR REACT COMPONENT, setting refs does not RE-RENDER COMPONETS. so if we SIMPLY UPDATE THE REFS, THE VIEW WOULD NEVER BE UPDATED.
+- in ths case with this solution we need both. */
