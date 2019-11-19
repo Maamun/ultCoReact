@@ -1,39 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
 const StopWatch = () => {
   const [time, setTime] = useState(0);
+  const [counterActive, setCounterActive] = useState(true);
   const currentTime = useRef(0);
-
   useEffect(() => {
-    // console.log(`time: ${time}`); // 0
-    console.log(`current Time: ${currentTime.current}`); //0
-
-    const interval = setInterval(() => {
-      currentTime.current++;
-      console.log(currentTime.current);
-      setTime(currentTime.current);
-    }, 1000);
+    let interval = null;
+    /* interval is declared inside the effect hook so we do not need to put it inside the dependency aray */
+    if (counterActive) {
+      interval = setInterval(() => {
+        currentTime.current++;
+        setTime(currentTime.current);
+      }, 1000);
+    }
 
     return () => {
       clearInterval(interval);
     };
-  }, []);
-  // console.log(`render ${time}`);
+  }, [counterActive]);
+  const onClickHandler = () => {
+    setCounterActive(c => !c);
+  };
+  const onResetHandler = () => {
+    setTime(0);
+    setCounterActive(false);
+  };
   return (
     <div className="container">
       <h1>Ultimate StopWatch</h1>
       <p>{time}</p>
-      <button type="button">start</button>
-      <button type="button">Reset</button>
+      <button
+        type="button"
+        aria-pressed={!counterActive}
+        onClick={onClickHandler}
+      >
+        {counterActive ? "Stop" : "Start"}
+      </button>
+      <button type="button" onClick={onResetHandler}>
+        Reset
+      </button>
     </div>
   );
 };
 export default StopWatch;
 
-/* - React offers another hook called useRef, which gives us access to mutable value that is managed by react and shared by all render calls.
-- Refs play the same role as instance fields as in JavaScript classes.
-- so we might ask why do we have to do the work to store the latest state of our state values?, why it's not done automatically by react? The reason is that we often don't need them and it would mean a lot of wasted computation o react rather leaves it up to us to decide when we need to save a value and when not.
-- if we go about our code using best patterns for useEffect, we will not often have to do this.but it;s good to know what to do when this occurs.
-- so we create a ref container with useRef hook, and we need to know about Ref container that it is an object that contains a current property and the current value of the ref container is contained in the current property.
-- it is interesting that We no longer have an error in our dependency array, the reason for this is that beacause we used a Ref container, and we did not use the time value directly, react knows that this Ref container stays the same amongs all renders, therefore we do not have to reference it anymore.
-- we might also ask why do we need both state and teh Ref container?, well, we have to remember that updating state IS THE DRIVING FORCE OF OUR REACT COMPONENT, setting refs does not RE-RENDER COMPONETS. so if we SIMPLY UPDATE THE REFS, THE VIEW WOULD NEVER BE UPDATED.
-- in ths case with this solution we need both. */
+/* -Why didn't we have to put the "interval" in the dependency array or use a Ref to keep the previous version of "interval"? that is because it is declared inside the callback function of useEffect. so beacause it is part of that closure, it has the correct value everytime. Everytime a new callback is defined, it will set the "interval" and when the clean up function happens it will have the correct "interval" to go and clear.
+- is important lesson that anything that we declare inside useEffect we do not have to add it to the dependency array, and anything we declare outside of the component function, we also do not have to add to the dependency aray.*/
