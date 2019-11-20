@@ -11,13 +11,13 @@ const Form = () => {
       ...formState,
       [e.target.name]: e.target.value
     });
+  };
+  const onSubmitHandler = e => {
+    e.preventDefault();
     console.log(formState);
   };
-
   return (
-    <form>
-      <span>{`Your First Name is ${formState.firstName} ${formState.lastName}`}</span>
-      <br />
+    <form onSubmit={onSubmitHandler}>
       <label htmlFor="firstName">First Name</label>
       <input
         id="firstName"
@@ -34,6 +34,7 @@ const Form = () => {
         value={formState.lastName}
         onChange={onChangehandler}
       />
+      <button type="submit">Save</button>
     </form>
   );
 };
