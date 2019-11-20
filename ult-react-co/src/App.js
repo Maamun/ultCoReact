@@ -1,10 +1,10 @@
 import React from "react";
-import StopWatch from "./StopWatch";
+import Form from "./Form";
 
 const App = () => {
   return (
     <>
-      <StopWatch />
+      <Form />
     </>
   );
 };
